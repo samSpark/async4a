@@ -38,12 +38,13 @@ final class FixedScheduledThread extends ScheduledThread {
                 if (scheduler.loop) {
                     Message ball = Message.obtain(msg);
                     handler.sendMessageDelayed(ball, scheduler.timeUnit.toMillis(scheduler.internalTime));
+                    runnable.run();//highest priority/highest weight
                 } else if (scheduler.frequency > 0) {
                     scheduler.frequency = scheduler.frequency - 1;
                     Message ball = Message.obtain(msg);
                     handler.sendMessageDelayed(ball, scheduler.timeUnit.toMillis(scheduler.internalTime));
+                    runnable.run();//highest priority/highest weight
                 }
-                runnable.run();//highest priority/highest weight
                 msg.obj = null;//gc
                 break;
             case FLUSH:
