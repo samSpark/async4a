@@ -89,7 +89,7 @@ public class ViewPortLayout implements Visitor, CancelableBiConsumer {
         }
 
         private boolean contains(int requestId) {
-            if (size() == 0) return false;
+            if (size() == 0 || this.head == null) return false;
             lock.lock();
             try {
                 Node cur = this.head;
@@ -111,7 +111,7 @@ public class ViewPortLayout implements Visitor, CancelableBiConsumer {
                     || contains(request)) return;
             lock.lock();
             try {
-                if (size() == 0) {
+                if (size() == 0 || this.head == null) {
                     this.head = new Node(request);
                 } else {
                     boolean reused = false;
@@ -122,7 +122,7 @@ public class ViewPortLayout implements Visitor, CancelableBiConsumer {
                             reused = true;
                             break;
                         }
-                        if(last != null)
+                        if (last != null)
                             last = last.next;
                     }
                     if (!reused && last != null)
@@ -135,7 +135,7 @@ public class ViewPortLayout implements Visitor, CancelableBiConsumer {
         }
 
         private boolean removeIf(int requestId) {
-            if (size() == 0) return false;
+            if (size() == 0 || this.head == null) return false;
             boolean removeIf = false;
             lock.lock();
             try {
@@ -164,7 +164,7 @@ public class ViewPortLayout implements Visitor, CancelableBiConsumer {
         }
 
         private void flush(int requestId) {
-            if (size() == 0) return;
+            if (size() == 0 || this.head == null) return;
             lock.lock();
             try {
                 Node next = this.head;
@@ -184,7 +184,7 @@ public class ViewPortLayout implements Visitor, CancelableBiConsumer {
         }
 
         private void erase() {
-            if (size() <= 0) return;
+            if (size() <= 0 || this.head == null) return;
             lock.lock();
             try {
                 Node cur = this.head;
