@@ -147,7 +147,8 @@ public class ViewPortLayout implements Visitor, CancelableBiConsumer {
                     head = next;
                 } else for (int i = 1; i < size(); i++) {
                     Node pre = next;
-                    next = next.next;
+                    if (pre != null)
+                        next = next.next;
                     if (next != null && next.value != null &&
                             next.value.getId() == requestId) {
                         Node join = next.next;
